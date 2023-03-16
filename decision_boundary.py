@@ -11,6 +11,19 @@ df_train, df_test = pd.read_csv("training.txt", header=None), pd.read_csv("test.
 df_train.columns, df_test.columns = ["Cenus", "Ac", "y", "stime"], ["Cenus", "Ac", "y", "stime"]
 print(df_train.head(), df_test.head(), sep="\n")
 
+
+#%%%%%%%%%%% KERNEL FOR TRACKING DATA (3D nucleus ellipsoid shape, 3D nucleus volume) %%%%%%%%%%%%%%%
+def kernel(X, Y):
+    '''Custom sigmoid kernel'''
+    M = np.array([[1, .1], [0.6, 1.9]]) # rotation
+    alpha, b, c = .04, 5, .9  # hyper-parameters
+    f = lambda x: np.tanh(x) 
+    
+    return f(alpha*np.dot(np.dot(X, M), Y.T)+c)*b
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (CeNuS, mean standardized cell area) %%%%%%%%%%%%%%%
 def kernel(X, Y):
     '''Custom sigmoid kernel'''
     M = np.array([[1, .1], [0., 1.75]]) # rotation
@@ -18,6 +31,30 @@ def kernel(X, Y):
     f = lambda x: np.tanh(x) # general sigmoid :) 
     
     return f(alpha*np.dot(np.dot(X, M), Y.T)+c)*b
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (Cell Shape, mean standardized cell area) %%%%%%%%%%%%%%%
+def kernel(X, Y):
+    '''Custom sigmoid kernel'''
+    M = np.array([[1, .1], [-0.2, 1.75]]) # rotation
+    alpha, b, c, d = .0005, 19., 0.65, 1.5  # hyper-parameters
+    f = lambda x: np.tanh(x) # general sigmoid :) 
+    
+    return f(alpha*np.dot(np.dot(X, M), Y.T)+c)*b - d
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (Nucleus AR, mean standardized cell area) %%%%%%%%%%%%%%%
+def kernel(X, Y):
+    '''Custom sigmoid kernel'''
+    M = np.array([[1, .1], [-0.05, 1.75]]) # rotation
+    alpha, b, c = .0003, 13., .65  # hyper-parameters (original: alpha, b, c = .0005, 10., .75)
+    f = lambda x: np.tanh(x) # general sigmoid :) 
+    
+    return f(alpha*np.dot(np.dot(X, M), Y.T)+c)*b
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 
 def model(df,kernel): return SVC(C=5, kernel=kernel, class_weight="balanced").fit(df_train.iloc[:,:2], df_train.iloc[:,2])
 
