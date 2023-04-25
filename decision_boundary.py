@@ -12,7 +12,7 @@ df_train.columns, df_test.columns = ["Cenus", "Ac", "y", "stime"], ["Cenus", "Ac
 print(df_train.head(), df_test.head(), sep="\n")
 
 
-#%%%%%%%%%%% KERNEL FOR TRACKING DATA (3D nucleus ellipsoid shape, 3D nucleus volume) %%%%%%%%%%%%%%%
+#%%%%%%%%%%% KERNEL FOR TRACKING DATA (3D nucleus ellipsoid shape, 3D nucleus volume) in Fig. 4 A) %%%%%%%%%%%%%%%
 def kernel(X, Y):
     '''Custom sigmoid kernel'''
     M = np.array([[1, .1], [0.6, 1.9]]) # rotation
@@ -23,7 +23,7 @@ def kernel(X, Y):
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (CeNuS, mean standardized cell area) %%%%%%%%%%%%%%%
+#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (CeNuS, mean standardized cell area) in Fig. 6 %%%%%%%%%%%%%%%
 def kernel(X, Y):
     '''Custom sigmoid kernel'''
     M = np.array([[1, .1], [0., 1.75]]) # rotation
@@ -33,7 +33,7 @@ def kernel(X, Y):
     return f(alpha*np.dot(np.dot(X, M), Y.T)+c)*b
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (Cell Shape, mean standardized cell area) %%%%%%%%%%%%%%%
+#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (Cell Shape, mean standardized cell area) in Fig. 13 %%%%%%%%%%%%%%%
 def kernel(X, Y):
     '''Custom sigmoid kernel'''
     M = np.array([[1, .1], [-0.2, 1.75]]) # rotation
@@ -43,7 +43,7 @@ def kernel(X, Y):
     return f(alpha*np.dot(np.dot(X, M), Y.T)+c)*b - d
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (Nucleus AR, mean standardized cell area) %%%%%%%%%%%%%%%
+#%%%%%%%%%%% KERNEL METASTASIS CLASSIFICATION (Nucleus AR, mean standardized cell area) in Fig. 12 %%%%%%%%%%%%%%%
 def kernel(X, Y):
     '''Custom sigmoid kernel'''
     M = np.array([[1, .1], [-0.05, 1.75]]) # rotation
